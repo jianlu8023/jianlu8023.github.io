@@ -1,4 +1,4 @@
 baseURL = 'https://jianlu8023.github.io/blog/'
 languageCode = 'zh-cn'
-title = 'My New Hugo Site'
+title = 'jianlu Blog'
 theme = 'paper'
