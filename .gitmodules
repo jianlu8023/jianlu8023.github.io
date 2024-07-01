@@ -1,3 +1,6 @@
 [submodule "themes/paper"]
 	path = themes/paper
 	url = https://mirror.ghproxy.com/https://github.com/nanxiaobei/hugo-paper.git
+[submodule "themes/ananke"]
+	path = themes/ananke
+	url = https://mirror.ghproxy.com/https://github.com/theNewDynamic/gohugo-theme-ananke.git

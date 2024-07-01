@@ -1,11 +1,9 @@
 baseURL = 'https://jianlu8023.github.io/'
 languageCode = 'zh-cn'
 title = 'jianlu Blog'
-theme = 'paper'
+theme = ['paper','ananke']
 
-disqusShortname = 'YOUR_DISQUS_SHORTNAME'   # use disqus comments
-comments = false                            # disable comments for a specific page
-math = true                                 # enable KaTeX math typesetting for a specific page
+# disqusShortname = 'YOUR_DISQUS_SHORTNAME'   # use disqus comments
 [params]
   # color style
   color = 'linen'                           # linen, wheat, gray, light
