@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # 设置Hugo版本
-      HUGO_VERSION: 0.129.0
+      HUGO_VERSION: 0.128.0
     steps:
       - name: 安装Hugo CLI
         run: |
