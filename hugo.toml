@@ -1,35 +1,31 @@
-baseURL = 'https://example.org/'
-#languageCode = 'en-us'
-title = 'My New Hugo Site'
-
-
-#baseURL = "https://hugo-paper.vercel.app/"
-# title = "Hugo Themes"
-author = "Steve Francia"
-copyright = "© 2024, lee.so"
+baseURL = 'https://jianlu8023.github.io/'
+#languageCode = 'zh-cn'
+languageCode = "en-us"
+DefaultContentLanguage = "en-us"
+title = "Jianlu Blog"
+theme = 'paper'
+author = "JianLu"
+copyright = "© 2024, JianLu."
+#copyright = "© 2024, JianLu; all rights reserved."
 paginate = 3
-languageCode = "en"
-DefaultContentLanguage = "en"
 enableInlineShortcodes = true
 # prevent build failures when using Hugo's Instagram shortcode due to deprecated Instagram API.
 # See https://github.com/gohugoio/hugo/issues/7228#issuecomment-714490456
 ignoreErrors = ["error-remote-getjson"]
 
-# ------------------------------
-#theme = "hugo-paper"
-#title = "Paper"
 
+# theme settings
 [params]
   color = 'linen'
 
-  twitter = 'nanxiaobei'
-  github = 'nanxiaobei'
-  instagram = 'nan.xiaobei'
+  twitter = 'jianlu'
+  github = 'jianlu8023'
+  instagram = 'jianlu8023'
 
-avatar = 'nanxiaobei@gmail.com'
-  name = 'Lee'
-  bio = 'Discover fresh context'
-# ------------------------------
+avatar = 'jianlu8023@gmail.com'
+  name = 'Jianlu'
+  bio = 'Welcome'
+
 
 # needed to  render raw HTML (e.g. <sub>, <sup>, <kbd>, <mark>)
 [markup]
@@ -77,6 +73,9 @@ series = "series"
     privacyEnhanced = true
 
 [services]
+
+#   [services.disqus]
+#     shortname = ''     # use disqus comments
 
   [services.instagram]
     disableInlineCSS = true
