@@ -18,13 +18,40 @@ ignoreErrors = ["error-remote-getjson"]
 [params]
   color = 'linen'
 
-  twitter = 'jianlu'
-  github = 'jianlu8023'
-  instagram = 'jianlu8023'
+  # header social icons
+  #twitter = 'jianlu8023'               # twitter.com/YOUR_TWITTER_ID
+  github = 'jianlu8023'                     # github.com/YOUR_GITHUB_ID
+  #instagram = 'jianlu8023'           # instagram.com/YOUR_INSTAGRAM_ID
+  #linkedin = 'jianlu8023'             # linkedin.com/in/YOUR_LINKEDIN_ID
+  #mastodon = 'jianlu8023'           # e.g. 'https://mastodon.instance/@xxx'
+  #threads = '@jianlu8023'              # threads.net/@YOUR_THREADS_ID
+  rss = true 
 
-avatar = 'jianlu8023@gmail.com'
+
+  avatar = 'jianlu8023@gmail.com'
   name = 'Jianlu'
   bio = 'Welcome'
+
+
+
+  # misc
+  disableHLJS = true                        # disable highlight.js
+  disablePostNavigation = true              # disable post navigation
+  monoDarkIcon = true                       # show monochrome dark mode icon
+  gravatarCdn = 'https://cdn.v2ex.com/gravatar/'         # e.g. 'https://cdn.v2ex.com/gravatar/'
+  math = true                               # enable KaTeX math typesetting globally
+  localKatex = false                        # use local KaTeX js/css instead of CDN
+  #graphCommentId = "YOUR_GRAPH_COMMENT_ID"  # use graph comment (disqus alternative)
+  favicon = "favicon.ico"                   # customize the default favicon
+  appleTouchIcon = "apple-touch-icon.png"   # customize the default Apple touch icon
+  comments = false                            # disable comments for a specific page
+  #comment = false
+
+  # RTL supprot
+  #direction = "rtl"                         # RTL support for Right-to-left languages
+
+
+
 
 
 # needed to  render raw HTML (e.g. <sub>, <sup>, <kbd>, <mark>)
@@ -82,3 +109,13 @@ series = "series"
 
   [services.twitter]
     disableInlineCSS = true
+
+# giscus
+#[params.giscus]
+  #repo = 'YOUR_GISCUS_REPO'                 # see https://giscus.app for more details
+  #repoId = 'YOUR_GISCUS_REPO_ID'
+  #category = 'YOUR__GISCUS_CATEGORY'
+  #categoryId = 'YOUR_GISCUS_CATEGORY_ID'
+  #mapping = 'pathname'
+  #theme = 'light'
+  #lang = 'zh-CN'

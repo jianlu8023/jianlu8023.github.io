@@ -5,4 +5,4 @@ draft = false
 +++
 
 
-this is a about page
+about it
