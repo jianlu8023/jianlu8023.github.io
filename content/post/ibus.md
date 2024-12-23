@@ -5,7 +5,7 @@ date = 2024-12-23T10:57:12+08:00
 author = "jianlu"
 
 draft = false
-type =  defaultType
+type = "post"
 layout = 'defaultLayout'
 description = "desc"
 aliases = ["ibus-rime", "ibus"]
