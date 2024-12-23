@@ -1,8 +1,8 @@
 +++
 author = "jianlu"
-title = '在linux中安装zsh教程'
+title = 'linux安装zsh'
 date = 2024-12-12
-description = "在linux中安装zsh教程并进行配置"
+description = "zsh"
 draft = false
 +++
 

@@ -36,7 +36,7 @@ ignoreErrors = ["error-remote-getjson"]
   bio = 'Welcome'
   # misc
   disableHLJS = true                        # disable highlight.js
-  disablePostNavigation = true              # disable post navigation
+  disablePostNavigation = true              # disable posts navigation
   monoDarkIcon = true                       # show monochrome dark mode icon
   gravatarCdn = 'https://cdn.v2ex.com/gravatar/'         # e.g. 'https://cdn.v2ex.com/gravatar/'
   math = true                               # enable KaTeX math typesetting globally

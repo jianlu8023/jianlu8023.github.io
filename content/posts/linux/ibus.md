@@ -1,5 +1,5 @@
 +++
-title = 'Ibus'
+title = 'linux安装ibus'
 date = 2024-12-23T10:57:12+08:00
 author = "jianlu"
 draft = false

@@ -1,8 +1,8 @@
 +++
 author = "jianlu"
-title = '这是build的文章'
+title = '这是build'
 date = 2024-07-01
-description = "build 测试文章"
+description = "build"
 draft = false
 +++
 
