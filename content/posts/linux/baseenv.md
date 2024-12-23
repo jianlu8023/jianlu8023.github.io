@@ -81,6 +81,8 @@ source /etc/profile
 
 ## docker
 
+[清华docker](https://mirrors.tuna.tsinghua.edu.cn/help/docker-ce/)
+
 * 安装最新版
 
 ```shell
