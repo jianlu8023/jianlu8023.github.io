@@ -52,6 +52,11 @@ plugins=(git zsh-syntax-highlighting zsh-autosuggestions jsontools)
 source ~/.zshrc
 ```
 
+9. 修改默认shell
+```shell
+chsh -s /bin/zsh
+```
+
 Tips:
 
 * 遇到Syntax error:"(" unexpected 如何解决
