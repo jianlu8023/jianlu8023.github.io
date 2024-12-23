@@ -11,6 +11,7 @@ aliases = ["hugo"]
 
 * [hugo](https://gohugo.io/)
 * [hugo 中文文档](https://hugo.opendocs.io/getting-started/)
+* [hugo主题](https://themes.gohugo.io/)
 
 1. 安装hugo
 

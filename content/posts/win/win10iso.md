@@ -2,7 +2,7 @@
 title = '直接下载win10.iso'
 date = '2024-12-23T15:47:31+08:00'
 author = 'jianlu'
-draft = true
+draft = false
 type = "post"
 description = "卡bug直接下载win10.iso"
 aliases = ["iso", "win10"]
