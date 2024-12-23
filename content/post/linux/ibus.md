@@ -3,7 +3,6 @@ title = 'Ibus'
 date = 2024-12-23T10:57:12+08:00
 author = "jianlu"
 draft = false
-type = "post"
 description = "linux安装ibus输入法"
 aliases = ["ibus-rime", "ibus"]
 +++
