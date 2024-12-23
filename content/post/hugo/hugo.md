@@ -4,6 +4,7 @@ date = 2024-12-23T11:48:19+08:00
 
 author = "jianlu"
 draft = false
+
 type = "post"
 description = "hugo"
 aliases = ["hugo"]
