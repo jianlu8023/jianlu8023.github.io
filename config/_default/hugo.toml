@@ -31,7 +31,8 @@ ignoreErrors = ["error-remote-getjson"]
   #threads = '@jianlu8023'              # threads.net/@YOUR_THREADS_ID
   rss = true
 
-  avatar = 'jianlu8023@gmail.com'
+  #avatar = 'jianlu8023@gmail.com'
+  avatar = 'https://avatars.githubusercontent.com/u/80561455?s=400&u=f59608e3266aa019714cde48c3cede6d5eb1ec2e&v=4'
   name = 'Jianlu'
   bio = 'Welcome'
   # misc
