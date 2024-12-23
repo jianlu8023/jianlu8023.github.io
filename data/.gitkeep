@@ -1,0 +1,3 @@
+data The data directory contains data files (JSON, TOML, YAML, or XML) that augment content, configuration, localization, and navigation. See details.
+
+details: https://gohugo.io/content-management/data-sources/

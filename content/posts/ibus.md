@@ -4,14 +4,8 @@ date = 2024-12-23T10:57:12+08:00
 author = "jianlu"
 draft = false
 type = "post"
-layout = 'defaultLayout'
 description = "linux安装ibus输入法"
 aliases = ["ibus-rime", "ibus"]
-categories = [
-"themes",
-"syntax",
-]
-weight = 10
 +++
 
 1. 卸载旧输入法并删除配置文件

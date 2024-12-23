@@ -1,0 +1,8 @@
+#defaultContentLanguage = 'en-us'
+#defaultContentLanguageInSubdir = true
+#[languages]
+#  [languages.en-us]
+#    contentDir = 'content'
+#    disabled = false
+#    languageCode = 'en-us'
+#    weight = 3

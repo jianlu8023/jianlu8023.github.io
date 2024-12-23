@@ -1,0 +1,3 @@
+config The config directory contains your site configuration, possibly split into multiple subdirectories and files. For projects with minimal configuration or projects that do not need to behave differently in different environments, a single configuration file named hugo.toml in the root of the project is sufficient. See details.
+
+details: https://gohugo.io/getting-started/configuration/#configuration-directory

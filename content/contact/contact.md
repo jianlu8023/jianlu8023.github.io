@@ -6,4 +6,4 @@ aliases = ["about-us", "contact"]
 author = "jianlu"
 +++
 
-- [github.com/jianlu8023](https://github.com/jianlu8023)
+- [jianlu8023](https://github.com/jianlu8023)

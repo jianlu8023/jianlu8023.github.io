@@ -1,18 +1,22 @@
 baseURL = 'https://jianlu8023.github.io/'
-#languageCode = 'zh-cn'
 languageCode = "en-us"
 DefaultContentLanguage = "en-us"
-title = "Jianlu Blog"
+title = "jianlu's blog"
 theme = 'paper'
 author = "JianLu"
 copyright = "© 2024, JianLu."
 #copyright = "© 2024, JianLu; all rights reserved."
-paginate = 3
+
 enableInlineShortcodes = true
 # prevent build failures when using Hugo's Instagram shortcode due to deprecated Instagram API.
 # See https://github.com/gohugoio/hugo/issues/7228#issuecomment-714490456
 ignoreErrors = ["error-remote-getjson"]
 
+# 旧设置
+#paginate = 3
+# 新设置
+[pagination]
+  pagerSize = 3
 
 # theme settings
 [params]
@@ -25,15 +29,11 @@ ignoreErrors = ["error-remote-getjson"]
   #linkedin = 'jianlu8023'             # linkedin.com/in/YOUR_LINKEDIN_ID
   #mastodon = 'jianlu8023'           # e.g. 'https://mastodon.instance/@xxx'
   #threads = '@jianlu8023'              # threads.net/@YOUR_THREADS_ID
-  rss = true 
-
+  rss = true
 
   avatar = 'jianlu8023@gmail.com'
   name = 'Jianlu'
   bio = 'Welcome'
-
-
-
   # misc
   disableHLJS = true                        # disable highlight.js
   disablePostNavigation = true              # disable post navigation
@@ -49,10 +49,6 @@ ignoreErrors = ["error-remote-getjson"]
 
   # RTL supprot
   #direction = "rtl"                         # RTL support for Right-to-left languages
-
-
-
-
 
 # needed to  render raw HTML (e.g. <sub>, <sup>, <kbd>, <mark>)
 [markup]
@@ -76,9 +72,9 @@ ignoreErrors = ["error-remote-getjson"]
     weight = 10
 
 [taxonomies]
-category = "categories"
-tag = "tags"
-series = "series"
+  category = "categories"
+  tag = "tags"
+  series = "series"
 
 [privacy]
 
@@ -112,10 +108,10 @@ series = "series"
 
 # giscus
 #[params.giscus]
-  #repo = 'YOUR_GISCUS_REPO'                 # see https://giscus.app for more details
-  #repoId = 'YOUR_GISCUS_REPO_ID'
-  #category = 'YOUR__GISCUS_CATEGORY'
-  #categoryId = 'YOUR_GISCUS_CATEGORY_ID'
-  #mapping = 'pathname'
-  #theme = 'light'
-  #lang = 'zh-CN'
+#repo = 'YOUR_GISCUS_REPO'                 # see https://giscus.app for more details
+#repoId = 'YOUR_GISCUS_REPO_ID'
+#category = 'YOUR__GISCUS_CATEGORY'
+#categoryId = 'YOUR_GISCUS_CATEGORY_ID'
+#mapping = 'pathname'
+#theme = 'light'
+#lang = 'zh-CN'

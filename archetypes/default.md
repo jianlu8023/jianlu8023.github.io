@@ -1,27 +1,7 @@
 +++
-title = '{{ replace .File.ContentBaseName "-" " " | title }}'
-date = {{ .Date }}
-
-author = "jianlu"
-
+date = '{{ .Date }}'
 draft = true
-type =  defaultType
-layout = 'defaultLayout'
+title = '{{ replace .File.ContentBaseName `-` ` ` | title }}'
+autuor = "jianlu"
 description = "desc"
-aliases = ["aliases0", "aliases1"]
-tags = [
-"markdown",
-"html",
-"tag2",
-]
-categories = [
-"themes",
-"syntax",
-]
-series = ["Themes Guide"]
-weight = 10
-
 +++
-
-
-this is default template.
