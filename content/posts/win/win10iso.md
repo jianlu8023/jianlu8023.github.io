@@ -1,5 +1,5 @@
 +++
-title = '直接下载win10.iso'
+title = '下载win10.iso'
 date = '2024-12-23T15:47:31+08:00'
 author = 'jianlu'
 draft = false

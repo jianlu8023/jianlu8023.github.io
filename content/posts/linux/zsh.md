@@ -4,6 +4,7 @@ title = 'linux安装zsh'
 date = 2024-12-12
 description = "zsh"
 draft = false
+aliases = ["oh-my-zsh", "zsh"]
 +++
 
 1. 首先安装zsh

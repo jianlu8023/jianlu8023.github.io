@@ -1,12 +1,12 @@
 +++
-title = 'Hugo'
+title = 'Hugo教程'
 date = 2024-12-23T11:48:19+08:00
 
 author = "jianlu"
 draft = false
 
 description = "hugo"
-aliases = ["hugo"]
+aliases = ["hugo","gohugo"]
 +++
 
 * [hugo](https://gohugo.io/)
