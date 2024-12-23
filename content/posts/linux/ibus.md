@@ -1,6 +1,6 @@
 +++
 title = 'linux安装ibus'
-date = 2024-12-23T10:57:12+08:00
+date = 2023-08-17T10:57:12+08:00
 author = "jianlu"
 draft = false
 description = "linux安装ibus输入法"

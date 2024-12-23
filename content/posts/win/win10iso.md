@@ -1,6 +1,6 @@
 +++
 title = '下载win10.iso'
-date = '2024-12-23T15:47:31+08:00'
+date = '2023-12-18T15:47:31+08:00'
 author = 'jianlu'
 draft = false
 description = "卡bug直接下载win10.iso"

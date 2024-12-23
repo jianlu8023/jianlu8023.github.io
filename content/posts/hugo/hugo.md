@@ -1,6 +1,6 @@
 +++
 title = 'Hugo教程'
-date = 2024-12-23T11:48:19+08:00
+date = 2024-07-01T11:48:19+08:00
 
 author = "jianlu"
 draft = false

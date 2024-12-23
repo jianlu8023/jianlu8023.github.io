@@ -1,7 +1,7 @@
 +++
 author = "jianlu"
 title = 'linux安装zsh'
-date = 2024-12-12
+date = 2023-03-29
 description = "zsh"
 draft = false
 aliases = ["oh-my-zsh", "zsh"]
