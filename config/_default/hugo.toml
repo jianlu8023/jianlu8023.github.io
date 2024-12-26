@@ -16,7 +16,7 @@ ignoreErrors = ["error-remote-getjson"]
 #paginate = 3
 # 新设置
 [pagination]
-  pagerSize = 3
+  pagerSize = 5
 
 # theme settings
 [params]
