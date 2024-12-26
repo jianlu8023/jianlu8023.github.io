@@ -3,7 +3,7 @@ title = 'gitlab当作go私服'
 date = '2024-06-14T12:35:37+08:00'
 author = 'jianlu'
 draft = true
-description = "desc"
+description = "gitlab当作go私服"
 aliases = ["go mod", "gitlab"]
 +++
 
