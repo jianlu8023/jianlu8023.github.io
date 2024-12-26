@@ -2,7 +2,7 @@
 title = 'java语言发送https请求'
 date = '2024-07-08T13:41:37+08:00'
 author = 'jianlu'
-draft = true
+draft = false
 description = "java语言发送https请求"
 aliases = ["https"]
 +++

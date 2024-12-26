@@ -1,3 +1,12 @@
++++
+title = 'ubuntu静态ip'
+date = '2023-07-28T17:39:39+08:00'
+author = 'jianlu'
+draft = false
+description = "ubuntu静态ip"
+aliases = ["ubuntu", "静态ip"]
++++
+
 ### ubuntu配置静态ip
 
 #### 步骤1
