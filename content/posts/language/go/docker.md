@@ -64,6 +64,7 @@ app-module
 
 ```dockerfile
 FROM golang:1.22-alpine3.19 AS gobuilder
+# FROM golang:1.22 AS go builder # 如果带alpine的不行 就换成不带的
 
 ENV GO111MODULE=on
 ENV GOPROXY=https://goproxy.cn,https://goproxy.io,direct
@@ -132,10 +133,16 @@ CMD ["--config", "/app/configs/"]
 
 ```dockerfile
 FROM golang:1.22-alpine3.19 AS gobuilder
+# FROM golang:1.22 AS go builder # 如果带alpine的不行 就换成不带的
 
 ENV GO111MODULE=on
 ENV GOPROXY=https://goproxy.cn,https://goproxy.io,direct
 ENV GOSUMDB=sum.golang.google.cn
+ENV GOPRIVATE=chainmaker.org/*
+ENV GONOSUMDB=chainmaker.org/*
+ENV GOINSECURE=chainmaker.org/*
+
+ENV GIT_TERMINAL_PROMPT=1
 
 WORKDIR /build/app
 
@@ -191,14 +198,21 @@ ENTRYPOINT ["./app"]
 CMD ["--config", "/app/configs/"]
 ```
 
-### alpine 无法运行
+### alpine 运行
 
 ```dockerfile
 FROM golang:1.22-alpine3.19 AS gobuilder
+# FROM golang:1.22 AS go builder # 如果带alpine的不行 就换成不带的
 
 ENV GO111MODULE=on
 ENV GOPROXY=https://goproxy.cn,https://goproxy.io,direct
 ENV GOSUMDB=sum.golang.google.cn
+
+ENV GOPRIVATE=chainmaker.org/*
+ENV GONOSUMDB=chainmaker.org/*
+ENV GOINSECURE=chainmaker.org/*
+
+ENV GIT_TERMINAL_PROMPT=1
 
 WORKDIR /build/app
 
@@ -216,7 +230,7 @@ FROM alpine3.19 AS toolbuilder
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories && \
     apk update && \
-    apk add --no-cache tzdata
+    apk add --no-cache tzdata tini
 
 RUN echo "Asia/Shanghai" > /etc/timezone
 
@@ -225,10 +239,7 @@ FROM alpine3.19 AS runner
 WORKDIR /app
 
 # 从 toolbuilder 层 拷贝工具
-COPY --from=toolbuilder /usr/sbin/gosu /sbin/gosu
-COPY --from=toolbuilder /usr/bin/tini /sbin/tini
-COPY --from=toolbuilder /bin/fusermount /usr/local/bin/fusermount
-COPY --from=toolbuilder /etc/ssl/certs /etc/ssl/certs
+COPY --from=toolbuilder /sbin/tini /sbin/tini
 COPY --from=datebuilder /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 COPY --from=datebuilder /etc/timezone /etc/timezone
 
@@ -284,10 +295,16 @@ build:
 
 ```dockerfile
 FROM golang:1.22-alpine3.19 AS gobuilder
+# FROM golang:1.22 AS go builder # 如果带alpine的不行 就换成不带的
 
 ENV GO111MODULE=on
 ENV GOPROXY=https://goproxy.cn,https://goproxy.io,direct
 ENV GOSUMDB=sum.golang.google.cn
+
+ENV GOPRIVATE=chainmaker.org/*
+ENV GONOSUMDB=chainmaker.org/*
+ENV GOINSECURE=chainmaker.org/*
+ENV GIT_TERMINAL_PROMPT=1
 
 WORKDIR /build/app
 
@@ -343,6 +360,7 @@ CMD ["--config", "/app/configs/"]
 
 ```dockerfile
 FROM golang:1.22.2-alpine3.19 AS gobuilder
+# FROM golang:1.22 AS go builder # 如果带alpine的不行 就换成不带的
 
 ENV GO111MODULE=on
 ENV GOPROXY=https://goproxy.cn,https://goproxy.io,direct
@@ -402,18 +420,22 @@ EXPOSE 7500
 ENTRYPOINT ["/sbin/tini", "--", "/app/abc"]
 
 CMD ["--config", "/app/configs/"]
-
-
 ```
 
 ### alpine  无法运行
 
 ```dockerfile
 FROM golang:1.22.2-alpine3.19 AS gobuilder
+# FROM golang:1.22 AS go builder # 如果带alpine的不行 就换成不带的
 
 ENV GO111MODULE=on
 ENV GOPROXY=https://goproxy.cn,https://goproxy.io,direct
 ENV GOSUMDB=sum.golang.google.cn
+
+ENV GOPRIVATE=chainmaker.org/*
+ENV GONOSUMDB=chainmaker.org/*
+ENV GOINSECURE=chainmaker.org/*
+ENV GIT_TERMINAL_PROMPT=1
 
 WORKDIR /build/app
 
@@ -428,7 +450,7 @@ FROM alpine:3.18 AS datebuilder
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories && \
     apk update && \
-    apk add --no-cache tzdata
+    apk add --no-cache tzdata tini
 
 RUN echo "Asia/Shanghai" > /etc/timezone
 
@@ -436,6 +458,7 @@ FROM alpine:3.18 AS runner
 
 WORKDIR /app
 
+COPY --from=datebuilder /sbin/tini /sbin/tini
 COPY --from=gobuilder /build/app/app/app ./abc
 COPY --from=gobuilder /build/app/app/cert /app/cert
 COPY --from=gobuilder /build/app/app/configs /app/configs
