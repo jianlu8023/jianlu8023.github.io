@@ -68,6 +68,11 @@ FROM golang:1.22-alpine3.19 AS gobuilder
 ENV GO111MODULE=on
 ENV GOPROXY=https://goproxy.cn,https://goproxy.io,direct
 ENV GOSUMDB=sum.golang.google.cn
+ENV GOPRIVATE=chainmaker.org/*
+ENV GONOSUMDB=chainmaker.org/*
+ENV GOINSECURE=chainmaker.org/*
+
+ENV GIT_TERMINAL_PROMPT=1
 
 WORKDIR /build/app
 
@@ -342,6 +347,12 @@ FROM golang:1.22.2-alpine3.19 AS gobuilder
 ENV GO111MODULE=on
 ENV GOPROXY=https://goproxy.cn,https://goproxy.io,direct
 ENV GOSUMDB=sum.golang.google.cn
+
+ENV GOPRIVATE=chainmaker.org/*
+ENV GONOSUMDB=chainmaker.org/*
+ENV GOINSECURE=chainmaker.org/*
+
+ENV GIT_TERMINAL_PROMPT=1
 
 WORKDIR /build/app
 
