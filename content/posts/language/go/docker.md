@@ -422,7 +422,7 @@ ENTRYPOINT ["/sbin/tini", "--", "/app/abc"]
 CMD ["--config", "/app/configs/"]
 ```
 
-### alpine  无法运行
+### alpine
 
 ```dockerfile
 FROM golang:1.22.2-alpine3.19 AS gobuilder
