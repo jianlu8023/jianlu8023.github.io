@@ -167,3 +167,13 @@ podman rm --latest
 ```
 
 [//]: # (https://www.atlantic.net/dedicated-server-hosting/how-to-install-and-use-podman-on-ubuntu/)
+
+# ubuntu 20.04 安装 podman-compose
+
+```shell
+sudo apt-get install python3-dotenv
+sudo curl -sSL -o /usr/local/bin/podman-compose https://mirror.ghproxy.com/https://raw.githubusercontent.com/containers/podman-compose/main/podman_compose.py
+sudo chmod +x /usr/local/bin/podman-compose
+sudo ln -s /usr/local/bin/podman-compose /usr/bin/podman-compose
+podman-compose --version
+```
