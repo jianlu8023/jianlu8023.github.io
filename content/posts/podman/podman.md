@@ -7,9 +7,7 @@ description = "ubuntu20.04安装podman"
 aliases = ["podman", "ubuntu20.04"]
 +++
 
-# ubuntu 20.04 安装 podman
-
-## install
+# install
 
 * ubuntu 20.04
 
@@ -19,12 +17,10 @@ sudo apt-get install curl wget gnupg2 -y
 
 # 2.  source your Ubuntu release and add the Podman repository with the following command
 source /etc/os-release
-sudo sh -c "echo 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x
-Ubuntu_${VERSION_ID}/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list"
+sudo sh -c "echo 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list"
 
 # 3. download and add the GPG key with the following command
-sudo wget -nv https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_${V
-ERSION_ID}/Release.key -O- | sudo apt-key add -
+sudo wget -nv https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_${VERSION_ID}/Release.key -O- | sudo apt-key add -
 
 # 4. update the repository and install Podman with the following command
 sudo apt-get update -qq -y
@@ -37,6 +33,9 @@ podman --version
 podman info
 ```
 
+[//]: # (https://www.atlantic.net/dedicated-server-hosting/how-to-install-and-use-podman-on-ubuntu/)
+
+
 * ubuntu 20.10 later 
 
 ```shell
@@ -44,7 +43,7 @@ sudo apt-get update
 sudo apt-get -y install podman
 ```
 
-## Add OCI Registry
+# Add OCI Registry
 
 ```shell
 # 7. When you pull an image using the Podman command, it will look for a list of registries from the registry configuration file /etc/containers/registries.conf. You can edit and add different registries in the configuration file.
@@ -82,11 +81,11 @@ insecure = false
 # 都会从这里上下顺序开始拉取镜像 最后才会匹配 [[registry]] 里 prefix 对应的 location 仓库拉取镜像
 # 每个 [[registry.mirror]] 都可以有两个配置项 location 和 insecure
 [[registry.mirror]]
-location = "docker.nju.edu.cn"
-insecure = true
+location = "mirror.ustc.edu.cn"
 [[registry.mirror]]
-location = "docker.mirrors.sjtug.sjtu.edu.cn"
-insecure = true
+location = "docker.1ms.run"
+[[registry.mirror]]
+location = "hub-dev.cnbn.org.cn"
 ```
 
 * * v1 版本
@@ -98,7 +97,7 @@ registries=["registry.access.redhat.com", "registry.fedoraproject.org", "docker.
 
 [//]: # (https://github.com/containers/image/issues/1054)
 
-## Working with Podman
+# Working with Podman
 
 * To search
 
@@ -124,6 +123,7 @@ podman images
 
 ```shell
 podman run -itd nginx
+podman run quay.io/podman/hello
 ```
 
 * To list containers
@@ -166,7 +166,6 @@ podman start --latest
 podman rm --latest
 ```
 
-[//]: # (https://www.atlantic.net/dedicated-server-hosting/how-to-install-and-use-podman-on-ubuntu/)
 
 # ubuntu 20.04 安装 podman-compose
 
