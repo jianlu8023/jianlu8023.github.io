@@ -243,3 +243,106 @@ services:
       - ETCD_NAME=etcd
     restart: always
 ```
+
+
+# golang 调用 
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"time"
+
+	glog "github.com/jianlu8023/go-logger"
+	"go.etcd.io/etcd/client/v3"
+)
+
+func main() {
+	// 1. 配置 etcd 客户端
+	cli, err := clientv3.New(clientv3.Config{
+		Endpoints:   []string{"localhost:2379"}, // 替换为你的 etcd 集群地址
+		DialTimeout: 5 * time.Second,
+		Logger: glog.NewLogger(&glog.Config{
+			LogLevel:    "info",
+			DevelopMode: true,
+			StackLevel:  "error",
+			ModuleName:  "etcd",
+			Caller:      true,
+		}),
+	})
+	if err != nil {
+		log.Fatalf("Failed to connect to etcd: %v", err)
+		return
+	}
+	defer cli.Close()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+defer cancel()
+	options, err := cli.UserAddWithOptions(ctx, "root", "123456", &clientv3.UserAddOptions{})
+	if err != nil {
+		log.Fatalf("Failed to add user: %v", err)
+		return
+	}
+	fmt.Println(options)
+
+	// 2. 存储数据
+	key := "mykey"
+	value := "myvalue"
+	putResp, err := cli.Put(ctx, key, value)
+	if err != nil {
+		log.Fatalf("Failed to put data: %v", err)
+	}
+	fmt.Printf("Put operation succeeded, Revision: %d\n", putResp.Header.Revision)
+
+	// 3. 读取数据
+	getResp, err := cli.Get(ctx, key)
+	if err != nil {
+		log.Fatalf("Failed to get data: %v", err)
+	}
+
+	if len(getResp.Kvs) > 0 {
+		fmt.Printf("Get operation succeeded, Key: %s, Value: %s, Revision: %d\n",
+			getResp.Kvs[0].Key, getResp.Kvs[0].Value, getResp.Header.Revision)
+	} else {
+		fmt.Println("Key not found")
+	}
+
+	// 4. 读取带有前缀的数据
+	// prefix := "my"
+	// getResp2, err := cli.Get(ctx, prefix, clientv3.WithPrefix())
+	// if err != nil {
+	// 	log.Fatalf("Failed to get data with prefix: %v", err)
+	// }
+	// if len(getResp2.Kvs) > 0 {
+	// 	fmt.Printf("Get operation with prefix %s succeeded:\n", prefix)
+	// 	for _, kv := range getResp2.Kvs {
+	// 		fmt.Printf("  Key: %s, Value: %s, Revision: %d\n", kv.Key, kv.Value, kv.Header.Revision)
+	// 	}
+	// } else {
+	// 	fmt.Printf("No key found with prefix %s\n", prefix)
+	// }
+
+	// 5. 删除数据
+	delResp, err := cli.Delete(ctx, key)
+	if err != nil {
+		log.Fatalf("Failed to delete data: %v", err)
+	}
+	fmt.Printf("Delete operation succeeded, Deleted: %d\n", delResp.Deleted)
+
+	// 6. 再次获取数据，验证是否删除
+	getResp3, err := cli.Get(ctx, key)
+	if err != nil {
+		log.Fatalf("Failed to get data: %v", err)
+	}
+
+	if len(getResp3.Kvs) > 0 {
+		fmt.Printf("Get operation after delete, Key: %s, Value: %s, Revision: %d\n",
+			getResp3.Kvs[0].Key, getResp3.Kvs[0].Value, getResp3.Header.Revision)
+	} else {
+		fmt.Println("Key not found after delete")
+	}
+}
+```
