@@ -1,0 +1,119 @@
+baseURL = 'https://jianlu8023.github.io/'
+languageCode = "en-us"
+DefaultContentLanguage = "en-us"
+title = "jianlu's Blog"
+theme = 'PaperMod'
+author = "JianLu"
+#copyright = "© 2024, JianLu."
+copyright = "© 2024, JianLu; all rights reserved."
+
+enableInlineShortcodes = true
+# prevent build failures when using Hugo's Instagram shortcode due to deprecated Instagram API.
+# See https://github.com/gohugoio/hugo/issues/7228#issuecomment-714490456
+ignoreErrors = ["error-remote-getjson"]
+
+# 旧设置
+#paginate = 3
+# 新设置
+[pagination]
+  pagerSize = 5
+
+# theme settings
+[params]
+  color = 'linen'
+
+  # header social icons
+  #twitter = 'jianlu8023'               # twitter.com/YOUR_TWITTER_ID
+  github = 'jianlu8023'                     # github.com/YOUR_GITHUB_ID
+  #instagram = 'jianlu8023'           # instagram.com/YOUR_INSTAGRAM_ID
+  #linkedin = 'jianlu8023'             # linkedin.com/in/YOUR_LINKEDIN_ID
+  #mastodon = 'jianlu8023'           # e.g. 'https://mastodon.instance/@xxx'
+  #threads = '@jianlu8023'              # threads.net/@YOUR_THREADS_ID
+  rss = true
+
+  #avatar = 'jianlu8023@gmail.com'
+  avatar = 'https://avatars.githubusercontent.com/u/80561455?s=400&u=f59608e3266aa019714cde48c3cede6d5eb1ec2e&v=4'
+  name = 'Jianlu'
+  bio = 'Welcome'
+  # misc
+  disableHLJS = true                        # disable highlight.js
+  disablePostNavigation = true              # disable posts navigation
+  monoDarkIcon = true                       # show monochrome dark mode icon
+  gravatarCdn = 'https://cdn.v2ex.com/gravatar/'         # e.g. 'https://cdn.v2ex.com/gravatar/'
+  math = true                               # enable KaTeX math typesetting globally
+  localKatex = false                        # use local KaTeX js/css instead of CDN
+  #graphCommentId = "YOUR_GRAPH_COMMENT_ID"  # use graph comment (disqus alternative)
+  favicon = "favicon.ico"                   # customize the default favicon
+  appleTouchIcon = "apple-touch-icon.png"   # customize the default Apple touch icon
+  comments = false                            # disable comments for a specific page
+  #comment = false
+
+  # RTL supprot
+  #direction = "rtl"                         # RTL support for Right-to-left languages
+
+# needed to  render raw HTML (e.g. <sub>, <sup>, <kbd>, <mark>)
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+#  [markup.highlight]
+#    lineNos = true
+
+[menu]
+
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 10
+  [[menu.main]]
+    identifier = "contact"
+    name = "Contact"
+    url = "/contact/"
+    weight = 10
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  series = "series"
+
+[privacy]
+
+  [privacy.vimeo]
+    disabled = false
+    simple = true
+
+  [privacy.twitter]
+    disabled = false
+    enableDNT = true
+    simple = true
+
+  [privacy.instagram]
+    disabled = false
+    simple = true
+
+  [privacy.youtube]
+    disabled = false
+    privacyEnhanced = true
+
+[services]
+
+#   [services.disqus]
+#     shortname = ''     # use disqus comments
+
+  [services.instagram]
+    disableInlineCSS = true
+
+  [services.twitter]
+    disableInlineCSS = true
+
+# giscus
+#[params.giscus]
+#repo = 'YOUR_GISCUS_REPO'                 # see https://giscus.app for more details
+#repoId = 'YOUR_GISCUS_REPO_ID'
+#category = 'YOUR__GISCUS_CATEGORY'
+#categoryId = 'YOUR_GISCUS_CATEGORY_ID'
+#mapping = 'pathname'
+#theme = 'light'
+#lang = 'zh-CN'
+
