@@ -1,12 +1,10 @@
 +++
-title = 'go应用容器化部署'
+title = 'golang语言编写的应用使用容器化部署'
 date = '2024-12-27T15:51:11+08:00'
 author = 'jianlu'
 draft = false
 description = "go应用容器化部署"
 +++
-
-# golang语言编写的应用使用容器化部署
 
 ## 目录结构
 
@@ -22,6 +20,8 @@ app                # 应用根目录
 ├── go.mod
 ├── go.sum
 ├── internal
+│   └── version
+│      └── version.go
 ├── LICENSE
 ├── Makefile
 └── README.md
@@ -36,10 +36,12 @@ app-module
 │   ├── Dockerfile-busybox
 │   ├── go.mod
 │   ├── go.sum
-│   ├── internal
 │   ├── Makefile
 │   ├── README.md
-│   └── src
+│   ├── src
+│   └── internal
+│      └── version
+│         └── version.go
 ├── go.work
 ├── go.work.sum
 └── tools
@@ -60,6 +62,44 @@ app-module
 
 ## 针对目录结构一的Dockerfile
 
+### makefile文件
+
+```makefile
+CUR_DIR:=$(notdir $(shell dirname $(abspath $(MAKEFILE_LIST))))
+CDIR:=$(dir $(abspath $(MAKEFILE_LIST)))
+CDIRNAME:=$(shell dirname $(CDIR))
+
+# ubuntu 
+#DOCKER_FILE:= $(lastword $(CUR_DIR))/Dockerfile
+# busybox
+#DOCKER_FILE:= $(lastword $(CUR_DIR))/Dockerfile-busybox
+# alpine
+DOCKER_FILE:= $(lastword $(CUR_DIR))/Dockerfile-alpine
+CUR_TIME:= $(shell date +"%Y%m%d%H%M")
+IMAGE_VERSION:=v$(CUR_TIME)
+# ubuntu
+#IMAGE_NAME:=ubuntu/app/app-server:$(IMAGE_VERSION)
+# busybox
+#IMAGE_NAME:=busybox/app/app-server:$(IMAGE_VERSION)
+# alpine
+IMAGE_NAME:=alpine/app/app-server:$(IMAGE_VERSION)
+
+# 添加version 和build_time参数
+VERSION:=$(shell git describe --tags --always --dirty)
+BUILDTIME=$(shell date +"%Y-%m-%d %H:%M:%S")
+
+build:
+	@echo "Current Dir: $(CUR_DIR)"
+	@echo "Dockerfile : $(DOCKER_FILE)"
+	@echo "Current Time: $(CUR_TIME)"
+	@echo "Image Version: $(IMAGE_VERSION)"
+	@cd "$(CDIRNAME)" && docker buildx build -t "$(IMAGE_NAME)" --build-arg "VERSION=${VERSION}" --build-arg "BUILD_TIME=${BUILDTIME}" --no-cache -f "$(DOCKER_FILE)" .
+    @echo "Image Name: $(IMAGE_NAME)"
+	@echo "done"
+.PHONY: build
+```
+
+
 ### busybox 运行
 
 ```dockerfile
@@ -77,14 +117,29 @@ ENV GIT_TERMINAL_PROMPT=1
 
 WORKDIR /build/app
 
+# 用于从makefile中传参
+ARG VERSION
+ARG BUILD_TIME
+
+# 放入环境变量
+ENV VERSION=${VERSION}
+ENV BUILD_TIME=${BUILD_TIME}
+
 COPY go.mod go.sum ./
 
 RUN go mod download -x 
 
 COPY . . 
 
+# -X 去设置代码中的变量 
+# app指go.mod 中的module名称 
+# internal/version 指代码中的包名 
+# Version指代码中的变量名
+# 举例 go.mod中module是github.com/jianlu8023/demo 需要赋值变量的包放在internal/version中 需要给Version 
+# go build -ldflags="-s -w -X 'github.com/jianlu8023/demo/internal/version.Version=${VERSION}'" -o app ./cmd/app/
+
 RUN if [[ -f "app" ]];then  rm app; fi && \
-    go build -ldflags="-s -w" -o app ./cmd/app/
+    go build -ldflags="-s -w -X 'app/internal/version.Version=${VERSION}' -X 'app/internal/version.BuildTime=${BUILD_TIME}'" -o app ./cmd/app/
 
 
 FROM debian:stable-slim AS toolbuilder
@@ -280,12 +335,16 @@ IMAGE_VERSION:=v$(CUR_TIME)
 # alpine
 IMAGE_NAME:=alpine/app/app-server:$(IMAGE_VERSION)
 
+# 添加version 和build_time参数
+VERSION:=$(shell git describe --tags --always --dirty)
+BUILDTIME=$(shell date +"%Y-%m-%d %H:%M:%S")
+
 build:
 	@echo "Current Dir: $(CUR_DIR)"
 	@echo "Dockerfile : $(DOCKER_FILE)"
 	@echo "Current Time: $(CUR_TIME)"
 	@echo "Image Version: $(IMAGE_VERSION)"
-	@cd "$(CDIRNAME)" && docker buildx build -t "$(IMAGE_NAME)" --no-cache -f "$(DOCKER_FILE)" .
+	@cd "$(CDIRNAME)" && docker buildx build -t "$(IMAGE_NAME)" --build-arg "VERSION=${VERSION}" --build-arg "BUILD_TIME=${BUILDTIME}" --no-cache -f "$(DOCKER_FILE)" .
     @echo "Image Name: $(IMAGE_NAME)"
 	@echo "done"
 .PHONY: build
@@ -310,10 +369,19 @@ WORKDIR /build/app
 
 COPY . .
 
+# -X 去设置代码中的变量 
+# app指go.mod 中的module名称 
+# internal/version 指代码中的包名 
+# Version指代码中的变量名
+# 举例 go.mod中module是github.com/jianlu8023/demo 需要赋值变量的包放在internal/version中 需要给Version 
+# go build -ldflags="-s -w -X 'github.com/jianlu8023/demo/internal/version.Version=${VERSION}'" -o app ./cmd/app/
+
 RUN cd /build/app/app && \
     if [[ -f "app" ]];then  rm app; fi && \
     go mod tidy && \
-    go build -ldflags="-s -w" -o app ./src
+    go build -ldflags="-s -w -X 'app/internal/version.Version=${VERSION}' -X 'app/internal/version.BuildTime=${BUILD_TIME}'" -o app ./src \
+    # 不需要变量赋值 使用下方 需要则使用上方
+    #go build -ldflags="-s -w" -o app ./src
 
 FROM ubuntu:22.04 AS datebuilder
 
