@@ -85,6 +85,7 @@ IMAGE_VERSION:=v$(CUR_TIME)
 IMAGE_NAME:=alpine/app/app-server:$(IMAGE_VERSION)
 
 # 添加version 和build_time参数
+# $(shell git branch --show-current)-
 VERSION:=$(shell git describe --tags --always --dirty)
 BUILDTIME=$(shell date +"%Y-%m-%d %H:%M:%S")
 
@@ -336,6 +337,7 @@ IMAGE_VERSION:=v$(CUR_TIME)
 IMAGE_NAME:=alpine/app/app-server:$(IMAGE_VERSION)
 
 # 添加version 和build_time参数
+# $(shell git branch --show-current)-
 VERSION:=$(shell git describe --tags --always --dirty)
 BUILDTIME=$(shell date +"%Y-%m-%d %H:%M:%S")
 
