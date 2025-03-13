@@ -18,3 +18,8 @@ aliases = ["hugo","gohugo"]
 ```shell
 go install github.com/gohugoio/hugo@latest
 ```
+
+<!-- 
+https://lflmlxy.github.io/posts/create-blog/
+-->
+
