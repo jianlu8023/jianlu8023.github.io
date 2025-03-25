@@ -37,15 +37,19 @@ git clone https://mirror.ghproxy.com/https://github.com/pyenv/pyenv.git ~/.pyenv
 # 2. 编辑.zshrc | .bashrc | .profile
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
+# 安装时使用镜像
+export PYTHON_BUILD_MIRROR_URL="https://registry.npmmirror.com/-/binary/python"
+export PYTHON_BUILD_MIRROR_URL_SKIP_CHECKSUM=1
 #eval "$(pyenv init --path)"
 #eval "$(pyenv virtualenv-init -)"
 
 #path
-export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$M2_HOME/bin:$GOROOT/bin:$GOPATH/bin:$PYTHON3:$PYENV_ROOT/bin:$PATH
+export PATH=$PYENV_ROOT/bin:$PATH
 
 # pyenv
 eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
+eval "$(pyenv init -)"
 ```
 
 
