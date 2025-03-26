@@ -31,9 +31,10 @@ source ~/.zshrc
 
 2. 手动安装方式
 
-```text
+```shell
 # 1. clone 项目
-git clone https://mirror.ghproxy.com/https://github.com/pyenv/pyenv.git ~/.pyenv
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+
 # 2. 编辑.zshrc | .bashrc | .profile
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
@@ -52,15 +53,19 @@ eval "$(pyenv virtualenv-init -)"
 eval "$(pyenv init -)"
 ```
 
-
-
 ## 问题 virtualenv-init 找不到解决方案
 
-
-Tips:
-
 ```bash
-git clone https://mirror.ghproxy.com/https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
+git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
 source ~/.zshrc
 ```
 
+## 基本命令
+
+```shell
+pyenv virtualenvs # 展示虚拟环境
+pyenv virtualenv 3.11.11 my-python # 创建虚拟环境 使用3.11.11的python
+pyenv activate my-python # 使用虚拟环境
+pyenv deactivate # 退出虚拟环境
+
+```
