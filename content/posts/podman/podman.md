@@ -53,7 +53,7 @@ nano /etc/containers/registries.conf
 * Add the following lines at the end of the file
 * * v2 版本 打开registries.conf 发现有unqualified-search-registries, 这个就是v2 版本
 
-```text
+```toml
 # unqualified-search-registries 和 registries.search 含义相同
 # podman pull docker.io/mysql 只会从docker.io 获取镜像
 # podman pull mysql 没有明确指定仓库时,使用下方配置顺序去获取
@@ -86,6 +86,52 @@ location = "mirror.ustc.edu.cn"
 location = "docker.1ms.run"
 [[registry.mirror]]
 location = "hub-dev.cnbn.org.cn"
+```
+
+* * 自用registries.conf
+
+```toml
+unqualified-search-registries = ["docker.io", "quay.io","ghcr.io","k8s.gcr.io"]
+
+[[registry]]
+prefix = "quay.io"
+location = "quay.io"
+insecure = false
+[[registry.mirror]]
+location = "quay.mirrorify.net"
+
+[[registry]]
+prefix = "ghcr.io"
+location = "ghcr.io"
+inseucre = false
+[[registry.mirror]]
+location = "ghcr.mirrorify.net"
+
+[[registry]]
+prefix = "docker.io"
+location = "docker.io"
+insecure = false
+[[registry.mirror]]
+location = "dockerproxy.net"
+insecure = false
+[[registry.mirror]]
+location = "docker.1ms.run"
+[[registry.mirror]]
+location = "docker.m.daocloud.io"
+[[registry.mirror]]
+location = "hub-dev.cnbn.org.cn"
+
+[[registry]]
+prefix = "k8s.gcr.io"
+location = "k8s.gcr.io"
+inseucre = false
+[[registry.mirror]]
+location = "registry.aliyuncs.com/google_containers"
+insecure = false
+[[registry.mirror]]
+location = "k8s.mirrorify.net"
+[[registry.mirror]]
+location = "k9s.m.daocloud.io"
 ```
 
 * * v1 版本
