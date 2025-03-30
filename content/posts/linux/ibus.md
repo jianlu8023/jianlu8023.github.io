@@ -103,6 +103,9 @@ sudo apt install libcanberra-gtk-module
 sudo apt install appmenu-gtk2-module
 ```
 
-
+* Can't connect to IBus.
+```shell
+ibus-daemon -r -d -x
+```
 
 
