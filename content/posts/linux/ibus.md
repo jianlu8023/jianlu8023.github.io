@@ -77,8 +77,18 @@ ibus restart
 * 方案二 使用已有项目
 
 ```shell
+# mkdir 
+mkdir -p ~/.config/ibus
 # 1. clone 项目
-git clone https://github.com/ssnhd/rime.git ~/.config/ibus/
+git clone https://github.com/ssnhd/rime.git ~/.config/ibus/rime
+
+# 横向候选词
+cd 配置文件  && touch ibus_rime.yaml
+vi ibus_rime.yaml
+# 粘贴下方内容
+style:
+  horizontal: true
+
 
 # 重启ibus
 ibus restart
