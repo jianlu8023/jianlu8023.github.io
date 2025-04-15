@@ -135,6 +135,19 @@ sudo apt-get install docker-ce=<VERSION_STRING> docker-ce-cli=<VERSION_STRING> c
 sudo docker run hello-world
 ```
 
+* 普通用户加入docker组
+
+```shell
+# 查看是否有docker组
+cat /etc/group | grep docker 
+# 查看用户
+cat /etc/passwd | grep $whoami
+# 没有docker组 则新增docker组
+sudo groupadd docker
+# 当前用户加入docker组
+sudo usermod -aG docker $whoami
+```
+
 * 安装loki插件
 
 ```shell
