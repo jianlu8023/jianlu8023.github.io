@@ -141,11 +141,11 @@ sudo docker run hello-world
 # 查看是否有docker组
 cat /etc/group | grep docker 
 # 查看用户
-cat /etc/passwd | grep $whoami
+cat /etc/passwd | grep $(whoami)
 # 没有docker组 则新增docker组
 sudo groupadd docker
 # 当前用户加入docker组
-sudo usermod -aG docker $whoami
+sudo usermod -aG docker $(whoami)
 ```
 
 * 安装loki插件
