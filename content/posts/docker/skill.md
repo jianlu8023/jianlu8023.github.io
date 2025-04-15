@@ -2,7 +2,7 @@
 title = 'docker技巧合集'
 date = '2023-08-31T13:17:23+08:00'
 author = 'jianlu'
-draft = true
+draft = false
 description = "docker技巧"
 aliases = ["docker", "skill"]
 +++

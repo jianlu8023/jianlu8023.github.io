@@ -7,7 +7,6 @@ description = "linux安装nvm"
 aliases = ["nvm", "node"]
 +++
 
-# nvm安装
 
 ## 使用git工具进行安装
 

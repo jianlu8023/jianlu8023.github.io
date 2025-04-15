@@ -7,7 +7,6 @@ description = "定时更新hosts"
 aliases = ["github", "hosts"]
 +++
 
-# 定时更新hosts
 
 ## 步骤
 
