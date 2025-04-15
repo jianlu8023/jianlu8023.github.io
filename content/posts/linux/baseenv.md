@@ -9,8 +9,6 @@ aliases = ["develop", "environment"]
 
 <a id = "top"></a>
 
-# 配置开发环境
-
 ----
 
 ## 目录
@@ -87,19 +85,24 @@ source /etc/profile
 
 ```shell
 curl -sSL https://get.daocloud.io/docker | sh
+
+export DOWNLOAD_URL="https://mirrors.tuna.tsinghua.edu.cn/docker-ce"
+# 如您使用 curl
+curl -fsSL https://raw.githubusercontent.com/docker/docker-install/master/install.sh | sudo -E sh
+# 如您使用 wget
+wget -O- https://raw.githubusercontent.com/docker/docker-install/master/install.sh | sudo -E sh
 ```
 
 * 安装指定版本
 
 ```shell
+# 如果你过去安装过 docker，先删掉
 sudo apt-get remove docker docker-engine docker.io containerd runc
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove $pkg; done
+# 安装依赖
 sudo apt-get update
-sudo apt-get install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg-agent \
-    software-properties-common
+sudo apt-get install  apt-transport-https ca-certificates curl gnupg-agent software-properties-common gnupg
+# 信任 Docker 的 GPG 公钥并添加仓库
 curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository \
    "deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/ \
@@ -131,6 +134,51 @@ sudo apt-get install docker-ce=<VERSION_STRING> docker-ce-cli=<VERSION_STRING> c
 
 sudo docker run hello-world
 ```
+
+* 安装loki插件
+
+```shell
+docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
+```
+
+* 如何使用loki
+
+1. daemon.json
+
+```json
+  {
+  "log-driver": "loki",
+  "log-opts": {
+    "loki-url": "http://loki:3100",
+    "loki-batch-size": "400"
+  }
+}
+```
+
+2. compose 文件
+
+```yaml
+    jaeger:
+    image: jaegertracing/all-in-one:1.51
+    ports:
+      - '6831:6831'
+      - '16686:16686'
+    logging:
+      driver: loki
+      options:
+        loki-url: 'http://localhost:3100/api/prom/push'
+        # Prevent container from being stuck when shutting down
+        # https://github.com/grafana/loki/issues/2361#issuecomment-718024318
+        loki-timeout: 1s
+        loki-max-backoff: 1s
+        loki-retries: 1
+```
+
+* 获取镜像tag等信息
+
+1. [轩辕docker](https://dockers.xuanyuan.me/)
+
+
 
 <a id = "4"></a>
 

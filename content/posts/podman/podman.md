@@ -117,6 +117,9 @@ insecure = false
 [[registry.mirror]]
 location = "docker.1ms.run"
 [[registry.mirror]]
+insecure = false
+location = "docker.xuanyuan.me"
+[[registry.mirror]]
 location = "docker.m.daocloud.io"
 [[registry.mirror]]
 location = "hub-dev.cnbn.org.cn"
