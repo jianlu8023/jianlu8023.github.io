@@ -2,7 +2,7 @@
 title = 'golang技巧'
 date = '2025-04-28T17:42:18+08:00'
 author = 'jianlu'
-draft = true
+draft = false
 description = "golang开发技巧"
 aliases = ["golang", "skill"]
 +++
