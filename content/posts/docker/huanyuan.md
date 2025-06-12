@@ -19,8 +19,13 @@ FROM alpine:latest as builder
 # 替换清华源
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
+# 更新索引 
+# 安装tzdata 
+# 删除缓存 
+# apk cache clean无效原因是默认没有开启local cache 
 RUN apk update && \
-    apk add --no-cache tzdata
+    apk add --no-cache tzdata && \
+    rm -rf /var/cache/apk/*
 
 ```
 
@@ -102,5 +107,11 @@ RUN sed -i 's|http://dl-cdn.alpinelinux.org|https://mirrors.aliyun.com|g' /etc/a
     "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
     "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
     "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
+    apk update && apk add --no-cache tzdata && \
+    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone && \
+    echo -e '#!/bin/bash\nls --color=auto -lah "$@"' > /usr/bin/ll && \
+    rm -rf /var/cache/apk/* /tmp/* /var/tmp/* $HOME/.cache
+
 
 ```
