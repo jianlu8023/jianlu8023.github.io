@@ -35,8 +35,7 @@ podman info
 
 [//]: # (https://www.atlantic.net/dedicated-server-hosting/how-to-install-and-use-podman-on-ubuntu/)
 
-
-* ubuntu 20.10 later 
+* ubuntu 20.10 later
 
 ```shell
 sudo apt-get update
@@ -51,7 +50,8 @@ nano /etc/containers/registries.conf
 ```
 
 * Add the following lines at the end of the file
-* * v2 版本 打开registries.conf 发现有unqualified-search-registries, 这个就是v2 版本
+*
+    * v2 版本 打开registries.conf 发现有unqualified-search-registries, 这个就是v2 版本
 
 ```toml
 # unqualified-search-registries 和 registries.search 含义相同
@@ -88,10 +88,11 @@ location = "docker.1ms.run"
 location = "hub-dev.cnbn.org.cn"
 ```
 
-* * 自用registries.conf
+*
+    * 自用registries.conf
 
 ```toml
-unqualified-search-registries = ["docker.io", "quay.io","ghcr.io","k8s.gcr.io"]
+unqualified-search-registries = ["docker.io", "quay.io", "ghcr.io", "k8s.gcr.io"]
 
 [[registry]]
 prefix = "quay.io"
@@ -137,7 +138,8 @@ location = "k8s.mirrorify.net"
 location = "k9s.m.daocloud.io"
 ```
 
-* * v1 版本
+*
+    * v1 版本
 
 ```text
 [registries.search]
@@ -215,7 +217,6 @@ podman start --latest
 podman rm --latest
 ```
 
-
 # ubuntu 20.04 安装 podman-compose
 
 ```shell
@@ -224,4 +225,20 @@ sudo curl -sSL -o /usr/local/bin/podman-compose https://mirror.ghproxy.com/https
 sudo chmod +x /usr/local/bin/podman-compose
 sudo ln -s /usr/local/bin/podman-compose /usr/bin/podman-compose
 podman-compose --version
+```
+
+#  podman 查看网络信息
+
+```shell
+# 1. 查看slirp4netns进程
+ps -ef | grep netns
+
+# 如下结果
+# /usr/bin/slirp4netns --disable-host-loopback --mtu=65520 --enable-sandbox --enable-seccomp -c -r 3 --netns-type=path /run/user/1000/netns/rootless-cni-ns tap0
+
+# 2. podman unshare 命令
+podman unshare nsenter --net=/run/user/1000/netns/rootless-cni-ns
+
+# 3. ip addr 即可出现容器ip信息
+ip addr
 ```
