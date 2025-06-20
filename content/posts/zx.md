@@ -30,3 +30,14 @@ nmap -sV --script ssl-enum-ciphers -p 3389 test.com
     create 0640 1000 1000 # 创建新的日志文件，权限为0640，所有者和组ID都为1000
 }
 ```
+
+## jetbrains 系列软件关闭 jcef_helper
+
+```text
+1. 打开 help -> edit custom properties 
+
+2. 添加以下内容
+ide.browser.jcef.enabled=false
+
+3. 重启软件
+```
