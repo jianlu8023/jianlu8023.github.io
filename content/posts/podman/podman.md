@@ -92,7 +92,11 @@ location = "hub-dev.cnbn.org.cn"
     * 自用registries.conf
 
 ```toml
-unqualified-search-registries = ["docker.io", "quay.io", "ghcr.io", "k8s.gcr.io"]
+unqualified-search-registries = [
+  "docker.io", "quay.io", "ghcr.io", "gcr.io", "k8s.gcr.io",
+  "registry.access.redhat.com", "container-registry.oracle.com", "registry.suse.com",
+  "registry.fedoraproject.org", "registry.opensuse.org"
+]
 
 [[registry]]
 prefix = "quay.io"
@@ -100,6 +104,9 @@ location = "quay.io"
 insecure = false
 [[registry.mirror]]
 location = "quay.mirrorify.net"
+[[registry.mirror]]
+location = "quay.mirrors.ustc.edu.cn"
+insecure = false
 
 [[registry]]
 prefix = "ghcr.io"
@@ -124,6 +131,21 @@ location = "docker.xuanyuan.me"
 location = "docker.m.daocloud.io"
 [[registry.mirror]]
 location = "hub-dev.cnbn.org.cn"
+[[registry.mirror]]
+location = "mirror.ustc.edu.cn"
+insecure = false
+[[registry.mirror]]
+location = "hub-mirror.c.163.com"
+insecure = false
+[[registry.mirror]]
+location = "mirror.baiduce.com"
+insecure = false
+[[registry.mirror]]
+location = "docker.mirrors.sjtug.sjtu.edu.cn"
+insecure = false
+[[registry.mirror]]
+location = "docker.nju.edu.cn"
+insecure = false
 
 [[registry]]
 prefix = "k8s.gcr.io"
@@ -136,6 +158,14 @@ insecure = false
 location = "k8s.mirrorify.net"
 [[registry.mirror]]
 location = "k9s.m.daocloud.io"
+
+[[registry]]
+prefix = "gcr.io"
+location = "gcr.io"
+insecure = false
+
+[[registry.mirror]]
+location = "gcr.lank8s.io"
 ```
 
 *
