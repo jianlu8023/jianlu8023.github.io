@@ -151,4 +151,19 @@ services:
       start_period: 15s # 启动后开始健康检查的延迟时间为 15 秒
       disable: false # 启用健康检查
     restart: unless-stopped
+  nvidia:
+    image: nvidia/cuda:12.3.1-base-ubuntu20.04
+    command: nvidia-smi
+    container_name: nvidia-demo
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              device_ids:
+                - 2
+                - 3
+              capabilities:
+                - gpu
 ```
