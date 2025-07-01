@@ -19,6 +19,7 @@ aliases = ["docker", "skill"]
 * [docker images format](#4)
 * [alpine mysql](#5)
 * [普通用户运行程序](#6)
+* [gosu和tini使用](#7)
 
 ## docker 批量导出镜像
 
@@ -277,4 +278,78 @@ RUN mkdir -p $IPFS_PATH \
 #-u 1000: 指定新用户的用户 ID (UID) 为 1000。 在 Linux 系统中，UID 是用于标识用户的数字。
 #-G users: 将新用户添加到 users 组。 在 Linux 系统中，组用于管理用户的权限。
 #ipfs: 这是新用户的用户名
+```
+
+## gosu 和 tini 使用
+
+<a id="7"></a>
+
+### dockerfile
+
+```dockerfile
+FROM debian:stable-slim AS builder
+RUN set -eux; \
+	apt-get update; \
+	apt-get install -y \
+		tini \
+    # Using gosu (~2MB) instead of su-exec (~20KB) because it's easier to
+    # install on Debian. Useful links:
+    # - https://github.com/ncopa/su-exec#why-reinvent-gosu
+    # - https://github.com/tianon/gosu/issues/52#issuecomment-441946745
+		gosu \
+    # This installs fusermount which we later copy over to the target image. \
+        fuse\
+        ca-certificates \
+        tzdata \
+	; \
+	rm -rf /var/lib/apt/lists/*
+
+FROM busybox:stable-glibc AS runtime
+
+COPY --from=builder /usr/sbin/gosu /sbin/gosu
+COPY --from=builder /usr/bin/tini /sbin/tini
+COPY --from=builder /etc/ssl/certs /etc/ssl/certs
+COPY --from=builder /bin/fusermount /usr/local/bin/fusermount
+
+# Add suid bit on fusermount so it will run properly
+RUN chmod 4755 /usr/local/bin/fusermount
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+
+#创建非 root 用户
+RUN mkdir -p /app/log && \
+    mkdir -p /app/db && \
+    groupadd -r myusers && useradd -r -u 1000 -g myusers appuser && \
+    chown -R appuser:myusers /app && \
+    chown appuser:myusers /docker-entrypoint.sh
+USER appuser
+
+ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -ksS https://localhost:8080/ || exit 1
+
+# Execute the daemon subcommand by default
+CMD ["--config","/app/"]
+```
+
+
+### entrypoint.sh
+
+```shell
+#!/bin/bash
+
+user=appuser
+
+if [ "$(id -u)" -eq 0 ]; then
+  echo "change user to $user"
+  # 使用 gosu 切换到指定用户，并重新执行当前脚本
+  exec gosu "$user" "$0" "$@"
+fi
+
+echo "starting app ..."
+echo "use user $(whoami)"
+echo "date $(date +"%Y-%m-%d %H:%M:%S")"
+sleep 3
+exec /app/app "$@"
 ```
