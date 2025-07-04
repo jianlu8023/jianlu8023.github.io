@@ -20,6 +20,8 @@ aliases = ["docker", "skill"]
 * [alpine mysql](#5)
 * [普通用户运行程序](#6)
 * [gosu和tini使用](#7)
+* [容器内grpcurl安装及使用](#8)
+* [python安装依赖](#9)
 
 ## docker 批量导出镜像
 
@@ -333,7 +335,6 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 CMD ["--config","/app/"]
 ```
 
-
 ### entrypoint.sh
 
 ```shell
@@ -352,4 +353,68 @@ echo "use user $(whoami)"
 echo "date $(date +"%Y-%m-%d %H:%M:%S")"
 sleep 3
 exec /app/app "$@"
+```
+
+## 容器内grpcurl安装及使用
+
+<a id="8"></a>
+
+```dockerfile
+FROM golang:latest AS grpcurlbuilder
+
+ENV GO111MODULE=on
+ENV GOPROXY=https://goproxy.cn,https://goproxy.io,direct
+ENV GOSUMDB=sum.golang.google.cn
+
+# GOPATH=/go
+RUN go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
+
+FROM alpine:latest
+
+COPY --from=grpcurlbuilder /go/bin/grpcurl /usr/local/bin/grpcurl
+
+# 启动grpc服务
+# --start-period=60s --interval=60s --timeout=3s --retries=3 CMD
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD grpcurl -d '{"message_type":"ping"}' -proto cross/proto/message.proto -plaintext 127.0.0.1:9999 cross.BaseMessageProtoService/send_message || exit 1
+    
+```
+
+## python安装依赖
+
+<a id="9"></a>
+
+
+```dockerfile
+FROM python:3.11 AS base
+
+RUN pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple && \
+    pip3 install --upgrade --no-cache-dir pip
+
+WORKDIR /app
+COPY . .
+
+FROM base AS builder
+
+ENV CUSTOM_INSTALL_PATH=/build/site-packages
+
+RUN mkdir -p $CUSTOM_INSTALL_PATH
+
+RUN pip3 install --no-cache-dir -t $CUSTOM_INSTALL_PATH --index-url https://download.pytorch.org/whl/cpu torch==2.6.0+cpu torchvision==0.21.0+cpu torchaudio==2.6.0+cpu && \
+    pip3 install --no-cache-dir requirements.txt && \
+    pip3 cache purge
+
+# 3.11
+# slim 基础依赖包的debian
+# bookworm debian 12
+FROM python:3.11-slim-bookworm AS runner
+
+WORKDIR /app
+
+ENV CUSTOM_INSTALL_PATH=/build/site-packages
+
+ENV PYTHONPATH=$CUSTOM_INSTALL_PATH
+
+COPY --from=builder $CUSTOM_INSTALL_PATH $CUSTOM_INSTALL_PATH
+COPY --from=base /app /app
 ```
