@@ -7,6 +7,8 @@ draft = false
 aliases = ["oh-my-zsh", "zsh"]
 +++
 
+## 安装
+
 1. 首先安装zsh
 
 ```shell
@@ -67,7 +69,33 @@ source ~/.zshrc
 chsh -s /bin/zsh
 ```
 
-Tips:
+## 主题配置
+
+### p10k
+
+```shell
+# 1. clone 仓库
+git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+
+# 2. 修改zshrc中theme
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# 3. 配置p10k
+p10k configure
+
+# 只显示最后一个文件夹 永久生效
+# 在~/.p10k.zsh 中找到 POWERLEVEL9K_SHORTEN_STRATEGY
+# 将 truncate_to_unique 改为 truncate_to_last
+
+# tab 补全时显示全路径
+# 找到 POWERLEVEL9K_DIR_MAX_LENGTH
+# 将 80 改为 1
+
+# 4. 生效配置
+source ~/.zshrc
+```
+
+## 问题解决
 
 * 遇到Syntax error:"(" unexpected 如何解决
 
