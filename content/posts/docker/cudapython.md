@@ -71,6 +71,8 @@ docker buildx build -t cuda:12.2.2-runtime-ubuntu20.04-python3.11 -f Dockerfile 
 FROM nvidia/cuda:12.2.2-runtime-ubuntu20.04
 
 ENV PYTHON_VERSION=3.11.0
+# 解决tzdata前台卡住问题
+ENV DEBIAN_FRONTEND noninteractive
 
 # 1 更改镜像源 2 安装tzdata并跳过前台设置时区 3 安装编译python的工具 4 下载python 5 编译python
 # 6 安装python 7 设置pip镜像并更新pip 8 删除cache
@@ -81,7 +83,7 @@ RUN sed -i "s#archive.ubuntu.com#mirrors.aliyun.com#g" /etc/apt/sources.list && 
     ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
     dpkg-reconfigure -f noninteractive tzdata && \
-    apt-get install -y vim wget gcc make automake libtool zlibc tk-dev libssl-dev build-essential libsqlite3-dev && \
+    apt-get install -y vim wget gcc make automake libtool zlibc tk-dev libssl-dev build-essential libsqlite3-dev liblzma-dev && \
     apt-get-install -y libreadline-gplv2-dev libncursesw5-dev libsqlite3-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev && \
     apt-get install -y libglib2.0-dev libsm6 libxrender1 libxext-dev libreadline-dev && \
     cd /root && \
@@ -94,7 +96,7 @@ RUN sed -i "s#archive.ubuntu.com#mirrors.aliyun.com#g" /etc/apt/sources.list && 
     ln -s /usr/local/bin/python3.11 /usr/bin/python && \
     ln -s /usr/local/bin/pip3 /usr/bin/pip && \
     pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple && \
-    pip3 install --upgrade pip && \
+    pip3 install --no-cache-dir --upgrade pip && \
     rm /root/Python-$PYTHON_VERSION.tgz && \
     rm -rf /root/Python-$PYTHON_VERSION && \
     apt-get clean && \
