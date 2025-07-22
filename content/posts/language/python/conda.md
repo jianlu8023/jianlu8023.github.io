@@ -7,9 +7,7 @@ description = "ubuntu安装conda"
 aliases = ["python", "conda"]
 +++
 
-
 ## 安装anaconda
-
 
 ## 安装miniconda
 
@@ -90,6 +88,40 @@ pip config set global.index-url https://mirrors.163.com/pypi/simple/
 pip install xxx -i https://mirrors.163.com/pypi/simple/
 ```
 
+### pip自定义配置
+
+```text
+1. pip加载顺序 每次加载配置文件，都会覆盖从之前加载的文件中读取的任何值
+    global  系统范围内的配置文件，在用户之间共享
+        C:\ProgramData\pip\pip.ini (win7及以上，隐藏但可写)
+    
+    user  用户级别的配置文件，只对当前用户有效
+        %APPDATA%\pip\pip.ini (windows)
+        
+    site 环境级别的配置文件 ，只对当前环境有效
+        %VIRTUAL_ENV%\pip.ini
+    PIP_CONFIG_FILE 环境变量指定的配置文件
+        export PIP_CONFIG_FILE=${HOME}/.config/pip/pip.ini (linux)
+举例：
+    global和user都配置了timeout pip执行时会使用user的timeout
+``` 
+
+```ini
+[global]
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+extra-index-url = https://pypi.mirrors.ustc.edu.cn/simple/
+trusted-host = pypi.tuna.tsinghua.edu.cn
+trusted-host = files.pythonhosted.org
+# timeout = 60
+
+[install]
+find-links = https://pypi.org/simple https://download.pytorch.org/whl/torch_stable.html
+trusted-host = pypi.douban.com
+# 配置bool值时，true、yes、y、on、1 都表示true，false、no、n、off、0 都表示false
+# ignore-installed = true
+# no-dependencies = yes
+```
+
 ## conda 镜像
 
 ```shell
@@ -156,6 +188,3 @@ custom_channels:
 ```
 
 * [docs](https://www.anaconda.com/docs/main)
-
-
-
