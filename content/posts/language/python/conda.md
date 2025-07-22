@@ -53,6 +53,8 @@ conda remove numpy # 删除一个包
 
 # 检查更新当前conda
 conda update conda
+# conda update conda 偶尔会发生问题，使用下方的命令 安装指定版本的conda可以解决update失败的问题
+conda install -n base -c default conda=25.5.1
 
 #查看--安装--更新--删除包
 
@@ -62,7 +64,6 @@ conda install package_name
 conda install package_name=1.5.0
 conda update package_name
 conda remove package_name
-
 
 ```
 
@@ -104,6 +105,9 @@ pip install xxx -i https://mirrors.163.com/pypi/simple/
         export PIP_CONFIG_FILE=${HOME}/.config/pip/pip.ini (linux)
 举例：
     global和user都配置了timeout pip执行时会使用user的timeout
+2. 下方为可用的配置 
+3. 安装pytorch时 可使用aliyun的镜像 
+    pip install torch==2.2.1+cu121 torchvision==0.17.1+cu121 torchaudio==2.2.1+cu121 -f https://mirrors.aliyun.com/pytorch-wheels/cu121
 ``` 
 
 ```ini
