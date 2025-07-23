@@ -82,6 +82,8 @@ touch config
 * 内容
 
 ```toml
+#[registry]
+#index = "https://github.com/rust-lang/crates.io-index"
 [source.crates-io]
 # 指定官方 crates.io 源。
 registry = "https://github.com/rust-lang/crates.io-index"
