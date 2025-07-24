@@ -167,3 +167,16 @@ services:
               capabilities:
                 - gpu
 ```
+
+
+
+
+## linux 避免path內容多次出现
+
+```shell
+export PATH=$PATH:/usr/local/dev/jdk8/bin
+export PATH=$(printf "%s" "$PATH" | awk -v RS=':' '!a[$1]++ { if (NR > 1) printf RS; printf $1 }')
+
+# IPFS_PATH 指定ipfs工作目录
+# IPFS_CLUSTER_PATH= 指定ipfs cluster工作目录
+```
