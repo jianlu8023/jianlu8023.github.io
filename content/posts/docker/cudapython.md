@@ -110,3 +110,35 @@ WORKDIR /
 ENTRYPOINT ["python"]
 CMD ["--version"]
 ```
+
+```dockerfile
+#FROM nvidia/cuda:12.2.2-devel-ubuntu20.04
+FROM nvidia/cuda:12.2.2-runtime-ubuntu20.04
+
+# 解决tzdata前台卡住问题
+#ENV DEBIAN_FRONTEND noninteractive
+
+# 1 更改镜像源 2 安装tzdata并跳过前台设置时区 3 安装编译python的工具 4 下载python 5 编译python
+# 6 安装python 7 设置pip镜像并更新pip 8 删除cache
+RUN sed -i "s#archive.ubuntu.com#mirrors.aliyun.com#g" /etc/apt/sources.list && \
+    sed -i "s#security.ubuntu.com#mirrors.aliyun.com#g" /etc/apt/sources.list && \
+    apt-get update && \
+    DEBIAN_FRONTEND noninteractive apt-get install -y tzdata && \
+    ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone && \
+    dpkg-reconfigure -f noninteractive tzdata && \
+    apt-get install -y python3 python3-pip && \
+    ln -s /usr/bin/python3.8 /usr/bin/python && \
+    pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple && \
+    pip3 install --no-cache-dir --upgrade pip && \
+    apt-get clean && \
+    apt-get autoremove -y && \
+    apt-get autoclean && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/*
+
+WORKDIR /
+
+ENTRYPOINT ["python"]
+CMD ["--version"]
+```
