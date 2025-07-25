@@ -78,7 +78,7 @@ services:
     blkio_config:
       weight: 1000 # 设置块设备 I/O 权重为 1000 默认值500 范围 10-1000
       # bps 限制读取操作 吞吐量 适用场景 需要限制大数据量读取速度的场景  限制每秒最多读取多少数据
-      device_read_bps: 
+      device_read_bps:
         - path: /dev/sda
           rate: 300kb
       device_write_bps:
@@ -136,7 +136,7 @@ services:
         limits:
           cpus: "0.5"
           memory: 512m
-        reservations: 
+        reservations:
           cpus: "0.25"
           memory: 256m
     labels:
@@ -168,9 +168,6 @@ services:
                 - gpu
 ```
 
-
-
-
 ## linux 避免path內容多次出现
 
 ```shell
@@ -179,4 +176,25 @@ export PATH=$(printf "%s" "$PATH" | awk -v RS=':' '!a[$1]++ { if (NR > 1) printf
 
 # IPFS_PATH 指定ipfs工作目录
 # IPFS_CLUSTER_PATH= 指定ipfs cluster工作目录
+```
+
+## ubuntu 安装msedge并设置中文
+
+```shell
+# download gpg key for microsoft repository
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+# add gpg key to apt
+sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+# add repository to apt 
+sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-stable.list'
+# rm gpg key
+sudo rm microsoft.gpg
+# update apt and install msedge
+sudo apt update && sudo apt install microsoft-edge-stable
+# settings zh-ch 
+cd /opt/microsoft/msedge
+sudo vi microsft-edge 
+# 在最上面的注释下方 添加
+export LANGUAGE=ZH-CN.UTF-8
+# 保存并退出
 ```
