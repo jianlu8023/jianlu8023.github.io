@@ -198,3 +198,28 @@ sudo vi microsft-edge
 export LANGUAGE=ZH-CN.UTF-8
 # 保存并退出
 ```
+
+
+## linux 解决too many open files
+
+```text
+# 1. 编辑/etc/security/limits.conf 
+
+# 添加
+
+# open files
+* soft nofile 65536
+* hard nofile 65536
+root soft nofile 65536
+root hard nofile 65536
+
+# max user processes
+* soft nproc 65535
+* hard nproc 65535
+root soft nproc 65535
+root hard nproc 65535
+
+# 检查 
+
+ulimit -n
+```
