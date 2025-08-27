@@ -12,7 +12,7 @@ aliases = ["golang", "static check", "golangci-lint"]
 ## 安装golangci-lint
 
 ```shell
-go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.1.6
+go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
 ```
 
 ## 使用
