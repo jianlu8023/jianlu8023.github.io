@@ -5,6 +5,7 @@ author = 'jianlu'
 draft = false
 description = "杂项"
 aliases = ["杂项"]
+weight = 10
 +++
 
 ## nmap 扫描端口
@@ -223,3 +224,39 @@ root hard nproc 65535
 
 ulimit -n
 ```
+
+# debian iso下载
+
+```text
+https://cdimage.debian.org/cdimage/
+```
+
+
+# docker gpg获取
+```shell
+# debian ubuntu
+
+sudo install -m 0755 -d /etc/apt/keyrings
+# ubuntu https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg
+# debian https://mirrors.aliyun.com/docker-ce/linux/debian/gpg
+curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# centos
+sudo wget -O /etc/yum.repos.d/docker-ce.repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+sudo sed -i 's|https://mirrors.aliyun.com|http://mirrors.aliyun.com|g' /etc/yum.repos.d/docker-ce.repo
+
+# 最后执行
+sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+```
+
+# ubuntu 安装kde
+```shell
+sudo apt install kde-standard
+```
+
