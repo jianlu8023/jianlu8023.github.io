@@ -260,3 +260,23 @@ sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plug
 sudo apt install kde-standard
 ```
 
+# openssl 生成证书 带 extension
+
+
+## 生成证书流程
+
+
+```shell
+
+# 1. private.key
+openssl genrsa -out ca.key 2048
+
+# 2. csr
+openssl req -new -key ca.key -out ca.csr
+
+# 3. pem
+openssl x509 -req -days 3650 -in ca.csr -signkey ca.key -out ca.crt
+
+## 另一种
+openssl req -newkey rsa:4096 -nodes -sha256 -keyout domain.key -x509 -days 3650 -out domain.crt -subj "/CN=xx.xx.xx.xx"
+```
