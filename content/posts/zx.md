@@ -392,3 +392,11 @@ openssl x509 -req -in httpserver.csr -CA root-ca.crt -CAkey root-ca.key -CAcreat
 # root-ca.csr 上次颁发证书使用的证书编号
 ```
 
+# 正则技巧
+
+```text
+1、(?=...)：正向预查（positive lookahead），表示某个字符串后面应该跟着什么。但这个字符串本身不会被包含在最终的匹配结果中。
+2、\K 是一个 Perl 兼容的正则表达式特性，它会丢弃之前匹配的所有内容，只从 \K 之后开始返回匹配结果。
+```
+
+
