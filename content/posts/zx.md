@@ -280,3 +280,115 @@ openssl x509 -req -days 3650 -in ca.csr -signkey ca.key -out ca.crt
 ## 另一种
 openssl req -newkey rsa:4096 -nodes -sha256 -keyout domain.key -x509 -days 3650 -out domain.crt -subj "/CN=xx.xx.xx.xx"
 ```
+
+## 扩展
+
+```shell
+# 从私钥中提取公钥
+openssl rsa -in server.key -pubout server.pub
+
+# 检查密钥是否有效
+openssl pkey -in server.key -check
+
+# 查看证书请求文件
+openssl req -in server.csr -noout -text
+
+# 查看证书信息
+openssl x509 -in server.crt -noout -text
+
+# 查看证书有效期
+openssl req -in server.csr -noout -datas
+
+# 验证证书是否有效
+openssl s_client -connect www.exampple.com:443 -showcerts </dev/null 2>/dev/null | openssl x509 -outform PEM > ./xx.pem
+```
+
+## 自己创建根证书,颁发证书，linux中将根证书加入系统信任列表
+
+```shell
+# 1. 创建根私钥
+openssl genrsa -ouy root-ca.key 2048
+
+# 2. 创建根证书
+openssl req -x509 -new -nodes -key root-ca.key -sha256 -days 3650 -out root-ca.crt
+
+# 3. 创建服务私钥
+openssl genrsa -out server.key 2048
+
+# 4. 给服务创建csr
+openssl req -new -key server.key -out server.csr -subj "/CN=xxx"
+
+# 5. 颁发服务证书
+openssl x509 -req -in server.csr -CA root-ca.crt -CAkey root-ca.key -CAcreateserial -out server.crt -days 365 -sha256
+
+# 6. 根证书配置到可信列表
+cp root-ca.crt /etc/pki/ca-trust/source/anchors/
+
+# 7. 更新可信根证书
+update -ca-trust extract
+
+# 8. 验证根证书是否在可信列表
+cat /etc/ssl/certs/ca-bundle.trust.crt 
+# 查看是否有root-ca.crt 证书
+```
+
+## openssl 颁发带主题替代名的证书 SAN
+
+```shell
+# 1. 生成根证书
+
+# 2. 创建服务私钥
+openssl genrsa -out httpserver.key 2048
+
+# 3. 创建证书配置文件 将下方内容存储到httpserver.conf
+
+# commonName alt_names 根据自己实际情况填写 域名 和 主机名
+# default_bits: 设置默认的密钥长度为 2048 位。
+# prompt: 设置为 no，表示在生成 CSR 时不提示用户输入信息，而是使用配置文件中的默认值。
+# default_md: 设置默认的消息摘要算法为 SHA-256。
+# distinguished_name: 指向 [req_distinguished_name] 段，定义了证书请求的基本信息。
+# req_extensions: 指向 [v3_req] 段，定义了证书请求中的扩展字段。
+# subjectAltName: 指向 [alt_names] 段
+
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+
+[req_distinguished_name]
+countryName = CN
+stateOrProvinceName = Xinjiang
+localityName = Urumqi
+organizationName = jianlu
+organizationalUnitName = IT
+commonName = http
+emailAddress = xxx@xxx.com
+
+[v3_req]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = http
+DNS.2 = jianlu.site
+DNS.3 = localhost
+IP.1 = 127.0.0.1
+IP.2 = 192.168.58.110
+
+# 4. 生成csr
+openssl req -new -key httpserver.key -out httpserver.csr -config httpserver.conf
+
+# 5. 生成证书
+openssl x509 -req -in httpserver.csr -CA root-ca.crt -CAkey root-ca.key -CAcreateserial -out httpserver.crt -days 365 -sha256 -extensions v3_req -extfile httpserver.conf
+
+# 文件解读
+# root-ca.crt 根证书
+# root-ca.key 根私钥
+# httpserver.csr 服务证书请求文件
+# httpserver.key 服务私钥
+# httpserver.crt 服务证书
+# httpserver.conf 服务证书配置文件
+# root-ca.csr 上次颁发证书使用的证书编号
+```
+
