@@ -14,6 +14,7 @@ aliases = ["golang", "skill"]
 
 * [并发获取一个值](#1)
 * [并发获取全部](#2)
+* [https证书验证说明](#3)
 
 ----
 
@@ -242,5 +243,24 @@ func getMoreResult(tasks []func() (interface{}, error)) ([]interface{}, error) {
 }
 
 ```
+
+[top](#top)
+
+## https证书验证说明
+
+<a id="3"></a>
+
+```text
+golang中，SSL会话证书验证策略。
+
+tls.Config结构体中的ClientAuth字段决定了客户端认证的要求。ClientAuth字段可以设置为以下几种策略之一：
+
+tls.NoClientCert: （默认值）不需要客户端证书。这意味着客户端连接到服务器时不需要提供任何证书，服务器不会对客户端进行身份验证。
+tls.RequestClientCert: 服务器请求客户端证书，但即使客户端没有提供证书，连接也可以继续。这是一种可选的客户端认证模式。
+tls.VerifyClientCertIfGiven: 类似于tls.RequestClientCert，但在客户端提供了证书的情况下，服务器会对证书进行验证。如果没有提供证书，则连接仍然可以继续。
+tls.RequireAndVerifyClientCert: 要求并且验证客户端证书。在这种模式下，客户端必须提供有效的证书，并且服务器将验证该证书。如果客户端未能提供有效的证书，则连接将被拒绝。
+
+```
+
 
 [top](#top)
