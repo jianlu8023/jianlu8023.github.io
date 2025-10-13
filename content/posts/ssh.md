@@ -76,15 +76,42 @@ Include config-*
 # 可以放config内 也可以单独一个文件 然后Include即可 
 # 假设写在 config-188 
 # include 写 Include config-188 或者 Include config-*
-Host xxx
-  Hostname 10.0.0.188
-  User root
-  Port 49022
-  IdentityFile ~/.ssh/id_rsa
-  ServerAliveInterval 180 # 
+Host xxx # 别名 此处xxx 为别名 连接 ssh xxx 即可
+  Hostname 10.0.0.188 # ip 
+  User root # 用户名
+  Port 49022 # 端口
+  IdentityFile ~/.ssh/id_rsa # 私钥 如果没有删掉此行
+  ServerAliveInterval 180 # 在建立连接后，每180秒客户端会向服务器发送一个心跳，避免用户长时间没有操作连接中断
+
+# 通用配置 
+Host Server*
+  User zhangsan
+  Port 22
+  ServerAliveInterval 180
+# 会使用Server的配置 
+Host Server1
+  HostName 10.0.0.188
+Host Server2
+  HostName 10.0.0.189
+
 
 # 跳板配置
-
+# 为什么要使用跳板机？
+# 使用跳板机通常是出于安全考虑。 
+# 例如，你可能不想直接将内部服务器暴露在公网上，而是只允许通过一个安全的跳板机访问。 
+# 这样可以集中管理访问权限，并减少安全风险
+Host jumper
+  Hostname 10.0.0.122
+  User zhangsan
+# 它指定了通过 jumper 这个 Host 作为跳板机。
+# 也就是说，要连接到任何匹配 Server* 的机器，都需要先连接到 jumper (也就是 10.0.0.122)，
+# 然后再从 jumper 连接到目标服务器
+Host Server*
+  User zhangsan
+  ProxyJump jumper
+  ServerAliveInterval 180
+Host Server1
+  Hostname 10.0.0.123
 ```
 
 # authorized_keys
