@@ -19,13 +19,14 @@ sudo apt-get install zsh
 2. 克隆oh-my-zsh 仓库 获取zshrc模板
 
 ```shell
-git clone https://mirror.ghproxy.com/https://github.com/robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh
+git clone https://github.com/robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh
 ```
 
 3. 拷贝zshrc模板到~目录
 
 ```shell
 cp $HOME/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+# 在~/.zshrc 第一行添加 zmodload zsh/zprof
 ```
 
 4. 进行zsh终端
@@ -43,8 +44,9 @@ source ~/.zshrc
 6. 获取插件
 
 ```shell
-git clone https://mirror.ghproxy.com/https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh}/plugins/zsh-syntax-highlighting
-git clone https://mirror.ghproxy.com/https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh}/plugins/zsh-autosuggestions
+git clone https://github.com/lukechilds/zsh-nvm ${ZSH_CUSTOM:-~/.oh-my-zsh}/custom/plugins/zsh-nvm # fnn 可代替nvm rust编写 curl -fsSL https://fnm.vercel.app/install | bash  
 ```
 
 7. 修改zsh配置文件 加入插件
@@ -53,7 +55,9 @@ git clone https://mirror.ghproxy.com/https://github.com/zsh-users/zsh-autosugges
 vi ~/.zshrc
 # 在zshrc中找到plugins=(git)
 # 将plugins=(git) 修改为
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions jsontools)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions jsontools zsh-nvm)
+# 开启懒加载
+export NVM_LAZY_LOAD=true
 # 保存 
 ```
 
@@ -127,4 +131,58 @@ mv .zsh_history .zsh_history_bad
 strings -eS .zsh_history_bad > .zsh_history
 # 4. fc
 fc -R .zsh_history
+```
+
+* lazyload 未尝试
+
+```shell
+sukka_lazyload_add_command() {
+    eval "$1() { \
+        unfunction $1 \
+        _sukka_lazyload__command_$1 \
+        $1 \$@ \
+    }"
+}
+
+sukka_lazyload_add_completion() {
+    local comp_name="_sukka_lazyload__compfunc_$1"
+    eval "${comp_name}() { \
+        compdef -d $1; \
+        _sukka_lazyload_completion_$1; \
+    }"
+    compdef $comp_name $1
+}
+
+_sukka_lazyload__command_pyenv() {
+  # pyenv 初始化
+  eval "$(command pyenv init -)"
+}
+_sukka_lazyload__compfunc_pyenv() {
+  # pyenv 命令补全
+  source "$(brew --prefix pyenv)/completions/pyenv.zsh"
+}
+# 添加 pyenv 的 lazyload
+sukka_lazyload_add_command pyenv
+sukka_lazyload_add_completion pyenv
+
+_sukka_lazyload__command_fuck() {
+  # fuck 初始化
+  eval $(thefuck --alias)
+}
+# 添加 fuck 的 lazyload
+sukka_lazyload_add_command fuck
+
+_sukka_lazyload__completion_hexo() {
+  # hexo 的 completion
+  eval $(hexo --completion=zsh)
+}
+# 添加 hexo completion 的 lazyload
+sukka_lazyload_add_completion hexo
+```
+
+* 关闭 oh-my-zsh 的 dirty 检查
+
+```shell
+git config --global oh-my-zsh.hide-dirty 1
+git config --global oh-my-zsh.hide-status 1
 ```
